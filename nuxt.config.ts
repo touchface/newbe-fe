@@ -1,7 +1,9 @@
 import { defineNuxtConfig } from "nuxt";
 import IconsResolver from "unplugin-icons/resolver";
 import Components from "unplugin-vue-components/vite";
-
+import AutoImport from "unplugin-auto-import/vite";
+import Icons from 'unplugin-icons/vite';
+import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
 const lifecycle = process.env.npm_lifecycle_event;
 
 export default defineNuxtConfig({
@@ -32,19 +34,32 @@ export default defineNuxtConfig({
     "@nuxtjs/svg",
     "@vueuse/nuxt",
     "nuxt-windicss",
-    "unplugin-icons/nuxt",
+    "unplugin-icons/nuxt"
   ],
-
+  modules: [
+  ],
   // auto import components
   components: true,
-
   // vite plugins
   vite: {
     plugins: [
+      AutoImport({
+        resolvers: [
+          ElementPlusResolver({importStyle:true}),
+          IconsResolver({
+            prefix:"Icon"
+          })],
+      }),
       Components({
         dts: true,
-        resolvers: [IconsResolver({})],
+        resolvers: [
+          ElementPlusResolver({importStyle:true}),
+          IconsResolver({enabledCollections:['ep']})
+        ]
       }),
+      Icons({
+        autoInstall: true
+      })
     ],
   },
 
