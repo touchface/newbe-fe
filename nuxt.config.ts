@@ -4,25 +4,26 @@ const lifecycle = process.env.npm_lifecycle_event;
 export default defineNuxtConfig({
   // meta
   meta: {
-    title: "NEWBE.PLUS",
+    title: "一望无际",
     meta: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
-        name: "NEWBE.PLUS",
+        name: "一望无际",
         content: "NEWBE.PLUS",
       },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
-
   // css
-  css: ['~/assets/scss/index.scss'],
+  css: ['~/assets/scss/reset.css','~/assets/scss/index.scss'],
+  js: [],
 
   // build
   build: {
     transpile: lifecycle === "build" ? ["element-plus"] : [],
   },
   modules: [
+    "@nuxtjs/axios",
     "@pinia/nuxt",
     "@nuxtjs/svg",
     "@vueuse/nuxt",
@@ -32,6 +33,14 @@ export default defineNuxtConfig({
   components: true,
   // vite plugins
   vite: {
+    server: {
+      proxy: {
+          '/api': {
+              target: 'http://127.0.0.1:8000',  //这里是接口地址
+              changeOrigin: true
+          }
+      }
+    },
     plugins: [
     ],
   },

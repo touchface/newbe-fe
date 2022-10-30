@@ -9,13 +9,20 @@
   "devDependencies": {
     "nuxt": "3.0.0-rc.8"
   },
+  "config": {
+    "baseURL": "/api"
+  },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
+    "@nuxt/types": "^2.15.8",
     "@nuxtjs/svg": "^0.4.0",
     "@pinia/nuxt": "^0.4.0",
     "@vueuse/nuxt": "^9.1.0",
+    "axios": "^1.1.2",
     "element-plus": "^2.2.13",
+    "highlight.js": "^11.6.0",
     "nuxt-windicss": "^2.5.0",
-    "sass": "^1.54.4"
+    "sass": "^1.54.4",
+    "sql-formatter": "^11.0.2"
   }
 }
