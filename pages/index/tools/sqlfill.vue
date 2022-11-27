@@ -18,49 +18,49 @@
         </div>
     </div>
 </template>
-<script setup>
-import {ref} from 'vue'
+<script>
 import {format} from 'sql-formatter'
-// 原始SQL字符串
-const sqlStr = ref(null)
-// 填充SQL字符串
-const sqlFill = ref(null)
-// 原始参数
-const paramStr = ref(null)
 
-/**
- * 填充SQL参数
- */
-const fillParams = ()=>{
-    let param = null
-    if(paramStr.value==null) {
-        return
-    }
-    if(paramStr.value.indexOf("[")!=-1) {
-        // ibatis处理
-        param=paramStr.value.substring(paramStr.value.indexOf("[")+1,paramStr.value.lastIndexOf("]"));
-    } else {
-        // mybatis处理
-        // 去除所有()中间的内容
-        param = paramStr.value.replace(/\(.*?\)/g,'')
-    }
-    param=param.replaceAll(', ',',')
-    let params=param.split(",")
-    let sql = sqlStr.value
-    // ||params[i]!=''&&!isNaN(params[i])
-    for(let i=0;i<params.length;i++){
-        if(params[i]=='null') {
-            sql=sql.replace("?",params[i])
-        } else {
-            sql=sql.replace("?","'"+params[i]+"'")
+export default {
+    data() {
+        return {
+            sqlStr: null,
+            sqlFill: null,
+            paramStr: null
+        }
+    },
+    methods: {
+        fillParams() {
+            let param = null
+            if(this.paramStr==null) {
+                return
+            }
+            if(this.paramStr.indexOf("[")!=-1) {
+                // ibatis处理
+                param=this.paramStr.substring(this.paramStr.indexOf("[")+1,this.paramStr.lastIndexOf("]"));
+            } else {
+                // mybatis处理
+                // 去除所有()中间的内容
+                param = this.paramStr.replace(/\(.*?\)/g,'')
+            }
+            param=param.replaceAll(', ',',')
+            let params=param.split(",")
+            let sql = this.sqlStr
+            for(let i=0;i<params.length;i++){
+                if(params[i]=='null') {
+                    sql=sql.replace("?",params[i])
+                } else {
+                    sql=sql.replace("?","'"+params[i]+"'")
+                }
+            }
+            this.sqlFill = format(sql)            
+        },
+        reset() {
+            this.sqlFill = null
+            this.sqlStr = null
+            this.paramStr = null
         }
     }
-    sqlFill.value = format(sql)
-}
-const reset = ()=>{
-    sqlStr.value = null
-    sqlFill.value = null
-    paramStr.value = null
 }
 </script>
 <style lang="scss" scoped>
