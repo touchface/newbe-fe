@@ -17,47 +17,50 @@
         </el-upload>
     </div>
 </template>
-<script setup lang="ts">
-    import { ref } from 'vue'
-
-    // 加载标志
-    const loading = ref(false)
-    // 生命周期 挂载完成
-    const onSuccess = (rsp,file)=>{
-        let url = window.URL.createObjectURL(new Blob([rsp],{type:"application/vnd.ms-excel;charset=utf-8"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download',file.name.replace('.pdf','.xlsx').replace('.PDF','.xlsx'))
-        document.body.appendChild(link)
-        link.click()
-        // 释放URL对象所占资源
-        window.URL.revokeObjectURL(url)
-        // 用完即删
-        document.body.removeChild(link)
-    }
-    // 配置XMLHTTP请求对象
-    const httpRequest = (options)=>{
-        return new Promise((resolve,reject)=>{
-            let xhr = new XMLHttpRequest()
-            xhr.responseType = 'blob'
-            let form = new FormData();
-            form.append("file", options.file)
-            xhr.open('POST', options.action)
-            xhr.send(form)
-            loading.value = true
-            xhr.onload = function(e) {
-                if (this.status == 200) {
-                    resolve(this.response)
-                } else if(this.status == 500) {
-                    reject(this.response)
+<script>
+export default {
+    data() {
+        return {
+            loading: false
+        }
+    },
+    methods: {
+        onSuccess(rsp,file){
+            let url = window.URL.createObjectURL(new Blob([rsp],{type:"application/vnd.ms-excel;charset=utf-8"}))
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            link.setAttribute('download',file.name.replace('.pdf','.xlsx').replace('.PDF','.xlsx'))
+            document.body.appendChild(link)
+            link.click()
+            // 释放URL对象所占资源
+            window.URL.revokeObjectURL(url)
+            // 用完即删
+            document.body.removeChild(link)
+        },
+        httpRequest(options){
+            return new Promise((resolve,reject)=>{
+                let xhr = new XMLHttpRequest()
+                xhr.responseType = 'blob'
+                let form = new FormData();
+                form.append("file", options.file)
+                xhr.open('POST', options.action)
+                xhr.send(form)
+                this.loading = true
+                xhr.onload = function(e) {
+                    if (this.status == 200) {
+                        resolve(this.response)
+                    } else if(this.status == 500) {
+                        reject(this.response)
+                    }
                 }
-            }
-            xhr.onloadend = function() {
-                loading.value = false
-            }
+                xhr.onloadend = function() {
+                    this.loading = false
+                }
         })
     }
+    }
+}
 </script>
 <style lang="scss" scoped>
 </style>

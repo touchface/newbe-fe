@@ -6,8 +6,6 @@
     </ul>
 </template>
 <script setup>
-    import {defineProps,ref,onMounted} from 'vue'
-
     const route = useRoute()
     const props = defineProps({
         list:Array

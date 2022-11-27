@@ -1,25 +1,27 @@
 <template>
-    <el-icon @click="copyValue(props.value)" :title="props.title" class="newbe-copy"><DocumentCopy/></el-icon>
+    <el-icon @click="copyValue(value)" :title="title" class="newbe-copy"><DocumentCopy/></el-icon>
 </template>
-<script setup>
-import {defineProps} from 'vue'
+<script>
 import { ElMessage } from 'element-plus'
 
-const props = defineProps({
-    value: String,
-    title: {
-        type: String,
-        default: '复制'
-    }
-})
-
-const copyValue = (value)=>{
-    if(value!=null&&value!='') {
-        navigator.clipboard.writeText(value).then(()=>{
-            ElMessage.success('复制内容成功')
-        })
-    } else {
-        ElMessage.error('无可复制内容')
+export default {
+    props: {
+        value: String,
+        title: {
+            type: String,
+            default: '复制'
+        }
+    },
+    methods: {
+        copyValue(value) {
+            if(value!=null&&value!='') {
+                navigator.clipboard.writeText(value).then(()=>{
+                    ElMessage.success('复制内容成功')
+                })
+            } else {
+                ElMessage.error('无可复制内容')
+            }            
+        }
     }
 }
 </script>

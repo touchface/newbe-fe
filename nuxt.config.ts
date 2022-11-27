@@ -4,11 +4,11 @@ const lifecycle = process.env.npm_lifecycle_event;
 export default defineNuxtConfig({
   // meta
   meta: {
-    title: "一望无际",
+    title: "NEWBE.PLUS",
     meta: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
-        name: "一望无际",
+        name: "NEWBE.PLUS",
         content: "NEWBE.PLUS",
       },
     ],
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     transpile: lifecycle === "build" ? ["element-plus"] : [],
   },
   modules: [
-    "@nuxtjs/axios",
+    // y"@nuxtjs/axios",
     "@pinia/nuxt",
     "@nuxtjs/svg",
     "@vueuse/nuxt",

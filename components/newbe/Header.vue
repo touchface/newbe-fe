@@ -1,5 +1,5 @@
 <template>
-    <el-menu :ellipsis="false" mode="horizontal">
+    <el-menu mode="horizontal" :router="true">
         <el-menu-item>
             <nuxt-link class="link" to="/">
             <div>
@@ -8,14 +8,19 @@
             </nuxt-link>
         </el-menu-item>
         <div class="flex-grow"></div>
-        <el-menu-item index="1">
-            <nuxt-link class="link" to="/tools">
-                <el-icon><SuitcaseLine/></el-icon>工具箱
-            </nuxt-link>
+        <el-menu-item v-for="(item,index) in menus" :key="index" :index="item.link">
+            <el-icon><component :is="item.icon" /></el-icon>{{item.name}}
         </el-menu-item>
     </el-menu>
 </template>
-<script lang="ts" setup>
+<script>
+export default {
+    props: {
+        menus: {
+            type: Array
+        }
+    }
+}
 </script>
 <style lang="scss" scoped>
     .flex-grow {
@@ -24,8 +29,5 @@
     .logo{
         display: inline-block;
         vertical-align: middle;
-    }
-    .link {
-        text-decoration: none;
     }
 </style>
