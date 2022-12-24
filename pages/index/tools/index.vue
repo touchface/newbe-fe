@@ -2,7 +2,7 @@
     <div class="container tools-box">
         <div class="tools-search"></div>
         <el-row :gutter="20">
-            <el-col v-for="(item,index) of list" :key="index" :xs="24" :sm="12" :lg="6" :xl="4">
+            <el-col v-for="(item,index) of list" :key="index" :xs="24" :sm="12" :lg="6">
                 <nuxt-link :to="item.to">
                 <div class="tool-item">
                     <div class="tool-item-info">
@@ -48,7 +48,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tool-item {
-    // border: 1px solid #CCCCCC;
+    border: 1px solid #CCCCCC;
     border-radius: 6px;
     padding: 12px;
     margin-bottom: 1rem;
